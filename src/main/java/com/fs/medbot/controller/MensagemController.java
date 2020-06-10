@@ -24,7 +24,7 @@ public class MensagemController {
 		repository.save(mensagem);
 		HashMap<String, Object> map=new HashMap<String, Object>();
 		map.put("inf_text", "Você passou estes dados para pesquisa:"+mensagem.getProduct()+ 
-				"  |  Você pediu esta informação:"+mensagem.getInformation());
+				"   |   Você pediu esta informação:"+mensagem.getInformation());
 		map.put("inf_type", "Hello World");
 		
 		return map;
