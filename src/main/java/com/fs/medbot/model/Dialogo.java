@@ -17,24 +17,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="mensagem",schema="public")
-public class Mensagem {
-    
+@Table(name = "dialogo", schema = "public")
+public class Dialogo {
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
-    private Long id;
-	
-	@Column(name = "information")
-    private String information;
-	
-	@Column(name = "intent")
-    private String intent;
-	
-	@Column(name = "product")
-    private String product;
-	
-    
-   
-  
+	private String id;
+	@Column(name = "mensagem")
+	private String mensagem;
+
 }
