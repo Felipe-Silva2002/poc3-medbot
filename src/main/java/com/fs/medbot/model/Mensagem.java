@@ -34,6 +34,9 @@ public class Mensagem {
 	@Column(name = "product")
     private String product;
 	
+	@Column(name="text")
+	private String text;
+	
     
    
   

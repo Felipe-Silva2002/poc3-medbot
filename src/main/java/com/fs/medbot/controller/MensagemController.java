@@ -22,18 +22,40 @@ public class MensagemController {
 	@Autowired
 	MensagemRepository repository;
 
-	@PostMapping
+	@GetMapping
 	@Transactional
 	public ResponseEntity<List<Mensagem>> save(@RequestBody Mensagem mensagemrecebida) {
 		List<Mensagem> listamensagem = null;
-		Mensagem mensagemexiste = repository.findByInformationAndIntentAndProduct(mensagemrecebida.getInformation(),
-				mensagemrecebida.getIntent(), mensagemrecebida.getProduct());
-		if (mensagemexiste == null) {
-			repository.save(mensagemrecebida);
+		List<Mensagem> mensagemexiste = repository.findByInformationAndProduct(mensagemrecebida.getInformation(), mensagemrecebida.getProduct());
+		
+		if (mensagemexiste.equals(null)) 
+		{
+			List<Mensagem> prod = repository.buscarProd(mensagemrecebida.getInformation());
+			List<Mensagem> info = repository.buscarInfo(mensagemrecebida.getProduct());
+			if(prod.equals(null)&&info.equals(null))
+			{
+				System.out.println("nenhum");
+			}
+			else
+			{
+				if(info.equals(null))
+				{
+					System.out.println("informacao");
+				}
+				else 
+				{
+					System.out.println("produto");
+				}
+			}
+			return null;
 		}
-
-		listamensagem = repository.findByInformation(mensagemrecebida.getInformation());
-		return ResponseEntity.ok(listamensagem);
+		else 
+		{	
+			//repository.save(mensagemrecebida);
+			listamensagem = repository.findByInformationAndProduct(mensagemrecebida.getInformation(),mensagemrecebida.getProduct());
+			return ResponseEntity.ok(listamensagem);
+		}
+		
 	}
 
 }
