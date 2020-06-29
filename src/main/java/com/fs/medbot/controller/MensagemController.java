@@ -1,6 +1,5 @@
 package com.fs.medbot.controller;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -8,12 +7,13 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fs.medbot.model.Dialogo;
 import com.fs.medbot.model.Mensagem;
+import com.fs.medbot.repository.DialogoRepository;
 import com.fs.medbot.repository.MensagemRepository;
 
 @RestController
@@ -21,41 +21,37 @@ import com.fs.medbot.repository.MensagemRepository;
 public class MensagemController {
 	@Autowired
 	MensagemRepository repository;
+	DialogoRepository dialogrepository;
 
 	@GetMapping
 	@Transactional
 	public ResponseEntity<List<Mensagem>> save(@RequestBody Mensagem mensagemrecebida) {
-		List<Mensagem> listamensagem = null;
-		List<Mensagem> mensagemexiste = repository.findByInformationAndProduct(mensagemrecebida.getInformation(), mensagemrecebida.getProduct());
-		
-		if (mensagemexiste.equals(null)) 
-		{
-			List<Mensagem> prod = repository.buscarProd(mensagemrecebida.getInformation());
-			List<Mensagem> info = repository.buscarInfo(mensagemrecebida.getProduct());
-			if(prod.equals(null)&&info.equals(null))
-			{
+		List<Mensagem> mensagemexiste = repository.findByInformationAndProduct(mensagemrecebida.getInformation(),
+				mensagemrecebida.getProduct());
+		System.out.println(mensagemexiste);
+		if (mensagemexiste.isEmpty()) {
+			System.out.println("não achou");
+			List<Mensagem> prod = repository.findByProduct(mensagemrecebida.getProduct());
+			List<Mensagem> info = repository.findByInformation(mensagemrecebida.getInformation());
+			System.out.println(prod);
+			System.out.println(info);
+			if (prod.isEmpty() && info.isEmpty()) {
 				System.out.println("nenhum");
-			}
-			else
-			{
-				if(info.equals(null))
-				{
+				return ResponseEntity.ok("Possuo este produto mas não essa informação");
+			} else {
+				if (info.isEmpty()) {
 					System.out.println("informacao");
-				}
-				else 
-				{
+					return ResponseEntity.ok("Possuo este produto mas não essa informação");
+				} else {
 					System.out.println("produto");
+					return ResponseEntity.ok("Possuo este produto mas não essa informação");
 				}
 			}
-			return null;
+		} else {
+			System.out.println("else");
+			return ResponseEntity.ok(mensagemexiste);
 		}
-		else 
-		{	
-			//repository.save(mensagemrecebida);
-			listamensagem = repository.findByInformationAndProduct(mensagemrecebida.getInformation(),mensagemrecebida.getProduct());
-			return ResponseEntity.ok(listamensagem);
-		}
-		
+
 	}
 
 }

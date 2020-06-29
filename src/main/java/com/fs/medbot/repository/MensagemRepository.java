@@ -24,10 +24,8 @@ public interface MensagemRepository extends JpaRepository<Mensagem, Long> {
 	
 	public List<Mensagem> findByInformationAndProduct(final String information,final String product);
 	
-	@Query(value = "Select m.product from mensagem m where product=:prod", nativeQuery = true)
-	public List<Mensagem> buscarProd(@Param("prod") final String product);
+	public List<Mensagem> findByProduct(final String product);
 	
-	@Query(value = "Select m.information from mensagem m where information=:info", nativeQuery = true)
-	public List<Mensagem> buscarInfo(@Param("info") final String information);
+	public List<Mensagem> findByInformation(final String information);
 	
 }
