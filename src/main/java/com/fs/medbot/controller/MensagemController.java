@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fs.medbot.model.Dialogo;
 import com.fs.medbot.model.Mensagem;
 import com.fs.medbot.repository.DialogoRepository;
 import com.fs.medbot.repository.MensagemRepository;
@@ -25,7 +24,7 @@ public class MensagemController {
 
 	@GetMapping
 	@Transactional
-	public ResponseEntity<List<Mensagem>> save(@RequestBody Mensagem mensagemrecebida) {
+	public ResponseEntity<?> save(@RequestBody Mensagem mensagemrecebida) {
 		List<Mensagem> mensagemexiste = repository.findByInformationAndProduct(mensagemrecebida.getInformation(),
 				mensagemrecebida.getProduct());
 		System.out.println(mensagemexiste);
@@ -37,14 +36,14 @@ public class MensagemController {
 			System.out.println(info);
 			if (prod.isEmpty() && info.isEmpty()) {
 				System.out.println("nenhum");
-				return ResponseEntity.ok("Possuo este produto mas não essa informação");
+				return ResponseEntity.ok("Não possuo nem este produto, nem esta informação");
 			} else {
 				if (info.isEmpty()) {
 					System.out.println("informacao");
-					return ResponseEntity.ok("Possuo este produto mas não essa informação");
+					return ResponseEntity.ok("Possuo este produto mas não esta informação");
 				} else {
 					System.out.println("produto");
-					return ResponseEntity.ok("Possuo este produto mas não essa informação");
+					return ResponseEntity.ok("Possuo esta informação mas não este produto");
 				}
 			}
 		} else {
