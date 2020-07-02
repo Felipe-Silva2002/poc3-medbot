@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "pedido", schema = "public")
+@Table(name = "Pedido", schema = "public")
 public class Pedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
