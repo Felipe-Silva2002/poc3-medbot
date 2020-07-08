@@ -35,7 +35,9 @@ public class Mensagem {
     private String product;
 	
 	@Column(name="text")
-	private String msgBot;
+	private String botMsg;
+	
+	private String botMsgType="TEXT";
 	
     
    
